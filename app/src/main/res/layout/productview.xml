@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme"
+    >
+
+
+
+    <com.google.android.material.card.MaterialCardView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card"
+        android:layout_margin="4sp"
+        android:elevation="5sp"
+
+        app:cardPreventCornerOverlap="true"
+        android:layout_gravity="center"
+        app:strokeColor="@color/maintheme"
+        app:strokeWidth="1sp"
+        app:cardCornerRadius="7sp">
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#DCEDC8"
+
+
+
+            >
+
+            <ImageView
+                android:id="@+id/gameimg"
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+
+                android:scaleType="centerCrop"
+                />
+            <TextView
+                android:id="@+id/gametitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Call Of duty"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_below="@id/gameimg"
+                android:paddingBottom="5sp"
+                android:maxLines="1"
+                android:layout_marginLeft="5sp"
+                android:forceHasOverlappingRendering="false"
+                />
+
+            <TextView
+                android:id="@+id/gameprice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5sp"
+                android:text="200rs"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:maxLines="1"
+                android:layout_below="@id/gametitle"
+                android:paddingBottom="5sp"
+                />
+
+            <TextView
+                android:id="@+id/gamedesc"
+                android:layout_width="match_parent"
+                android:layout_below="@id/gameprice"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5sp"
+
+                android:text="200rs"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:paddingBottom="5sp"/>
+
+
+
+                <ImageButton
+                    android:id="@+id/optionmenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@id/gametitle"
+                    android:layout_below="@id/gameimg"
+                    android:src="@drawable/ic_optionmenu"
+                    android:background="#00000000"
+                    android:paddingRight="0dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="20dp"
+
+                    />
+
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

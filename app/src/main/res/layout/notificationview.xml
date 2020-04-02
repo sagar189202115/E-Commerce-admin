@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme"
+
+
+
+    >
+    <com.google.android.material.card.MaterialCardView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/notificationcard"
+        android:layout_margin="4sp"
+        android:elevation="5sp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="1sp"
+
+        >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10sp"
+    android:background="#444444"
+
+    >
+
+    <TextView
+        android:id="@+id/requestedgame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="name"
+        android:textColor="#FFE045"
+        android:singleLine="true"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-By "
+        android:textColor="#0CEC31"
+        android:textSize="10sp"
+        android:layout_below="@+id/requestedgame"
+        android:layout_alignRight="@+id/requestedgame"
+        android:id="@+id/requesteduser"
+        android:elevation="2sp"
+
+        android:singleLine="true"/>
+
+
+
+
+
+</RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+        android:background="#979797"
+        android:layout_marginRight="2sp"
+        android:layout_marginLeft="2sp"
+        android:layout_below="@+id/notificationcard"
+        />
+</RelativeLayout>

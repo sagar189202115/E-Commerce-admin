@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    >
+
+
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Game Name"
+    android:id="@+id/gname"
+    android:singleLine="true"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Game price"
+        android:singleLine="true"
+        android:id="@+id/gprice"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Game desc"
+        android:height="100sp"
+
+        android:maxHeight="300sp"
+        android:id="@+id/gdesc"/>
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="submit" />
+
+    <Button
+        android:id="@+id/select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select image"
+        android:onClick="select"/>
+    <ImageView
+        android:layout_width="300sp"
+        android:layout_height="300sp"
+        android:id="@+id/image"
+        />
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:id="@+id/progress_circular"
+        android:layout_height="100dp"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:progressTint="#3333ff"
+        android:progress="50"
+
+
+
+        />
+
+</LinearLayout>

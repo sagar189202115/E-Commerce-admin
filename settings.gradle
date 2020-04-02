@@ -1,0 +1,2 @@
+rootProject.name='getsoftadmin'
+include ':app'
