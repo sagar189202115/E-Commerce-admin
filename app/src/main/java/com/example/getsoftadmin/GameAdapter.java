@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -48,7 +49,9 @@ class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         holder.title.setText(game.getName());
         holder.price.setText(game.getPrice());
         holder.desc.setText(game.getDesc());
-        Glide.with(context).load(game.getImg()).into(holder.image);
+        holder.time.setText(game.getTime());
+        holder.date.setText(game.getDate());
+        Glide.with(context).load(game.getImgurl()).into(holder.image);
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +76,7 @@ class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
                                 Toast.makeText(context, "setting", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.delete:
-                                DeleteData.deleteKey(game.getId(),context);
+                                DeleteData.deleteKey(game.getId(),context,game.getI());
                                 break;
                             default:
                                 Toast.makeText(context, "error", Toast.LENGTH_SHORT).show();
@@ -98,7 +101,7 @@ class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
+        TextView title,date,time;
         TextView price;
         TextView desc;
         ImageView image;
@@ -107,6 +110,8 @@ class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title=itemView.findViewById(R.id.gametitle);
+            time=itemView.findViewById(R.id.time);
+            date=itemView.findViewById(R.id.date);
             price=itemView.findViewById(R.id.gameprice);
             desc=itemView.findViewById(R.id.gamedesc);
             image=itemView.findViewById(R.id.gameimg);

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -131,7 +132,11 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
         nab =findViewById(R.id.nav_view);
         drawer=findViewById(R.id.drawer_layout);
         View g=nab.inflateHeaderView(R.layout.nav_header_main2);
-        g.findViewById(R.id.textView);
+        TextView t2=g.findViewById(R.id.headertext);
+        TextView t=g.findViewById(R.id.textView);
+        t.setText("sagar");
+        t2.setText("Open Profile");
+
 
         ActionBarDrawerToggle at=new ActionBarDrawerToggle(this,drawer,toolbar,R.string.open,R.string.close);
         at.syncState();

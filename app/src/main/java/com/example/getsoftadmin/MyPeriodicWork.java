@@ -47,7 +47,7 @@ public class MyPeriodicWork extends Worker {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for(DataSnapshot ds:dataSnapshot.getChildren()) {
-                    Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+                    Intent i=new Intent(getApplicationContext(),Main2Activity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                             | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     i.putExtra("Name",ds.getValue().toString());

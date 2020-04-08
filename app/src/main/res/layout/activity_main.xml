@@ -29,6 +29,34 @@
 
         android:maxHeight="300sp"
         android:id="@+id/gdesc"/>
+    <TextView
+        android:text="Category"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:id="@+id/list"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:chipSpacing="8dp"
+
+            app:singleLine="true"
+            android:id="@+id/chgrp"
+            >
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/submit"
