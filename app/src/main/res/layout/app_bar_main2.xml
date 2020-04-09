@@ -4,30 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Main2Activity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    tools:context=".Main2Activity"
+    android:fitsSystemWindows="true"
+    android:theme="@style/NoAction.PopupOverlay"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    >
 
 
 
 
 
+<com.google.android.material.appbar.AppBarLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/NoAction.PopupOverlay">
         <androidx.appcompat.widget.Toolbar
+            app:layout_scrollFlags="enterAlways|scroll"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/NoAction.PopupOverlay" >
-            <SearchView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:outlineProvider="none"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:id="@+id/search"
-                />
+            app:navigationIcon="@drawable/ic_menu"
+            android:overScrollMode="always"
+            app:popupTheme="@style/NoAction.AppBarOverlay" >
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -44,24 +44,10 @@
             </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/swiperefresh"
+</com.google.android.material.appbar.AppBarLayout>
 
-            >
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/gamerecycler"
-                android:layout_margin="10dp"
-
-                />
-
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    </LinearLayout>
+<include
+    layout="@layout/content_main2"/>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

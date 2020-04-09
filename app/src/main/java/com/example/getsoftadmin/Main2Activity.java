@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.graphics.drawable.DrawerArrowDrawable;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -37,11 +38,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Database;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Main2Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -88,7 +92,17 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
                         }
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                            gamelist.add(ds.getValue(GameDetails.class));
+                            ArrayList<String> tags=new ArrayList<>();
+                            String name=ds.child("Name").getValue().toString();
+                            String date=ds.child("date").getValue().toString();
+                            String desc=ds.child("desc").getValue().toString();
+                            String time=ds.child("time").getValue().toString();
+                            String id=ds.child("id").getValue().toString();
+                            String imgurl=ds.child("imgurl").getValue().toString();
+                            String price=ds.child("price").getValue().toString();
+                            String i=ds.child("i").getValue().toString();
+                            tags=(ArrayList)ds.child("tags").getValue();
+                            gamelist.add(new GameDetails(name,desc,price,imgurl,i,id,time,date,tags));
 
                         }
                         recyclerView.setAdapter(gameAdapter);
@@ -108,13 +122,26 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 if(gamelist!=null)
                 {
                     gamelist.clear();
                 }
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    ArrayList<String> tags=new ArrayList<>();
+                    String name=ds.child("Name").getValue().toString();
+                    String date=ds.child("date").getValue().toString();
+                    String desc=ds.child("desc").getValue().toString();
+                    String time=ds.child("time").getValue().toString();
+                    String id=ds.child("id").getValue().toString();
+                    String imgurl=ds.child("imgurl").getValue().toString();
+                    String price=ds.child("price").getValue().toString();
+                    String i=ds.child("i").getValue().toString();
+                    tags=(ArrayList)ds.child("tags").getValue();
 
-                    gamelist.add(ds.getValue(GameDetails.class));
+                    gamelist.add(new GameDetails(name,desc,price,imgurl,i,id,time,date,tags));
+
+
 
                 }
                 gameAdapter.notifyDataSetChanged();
@@ -129,6 +156,11 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
             }
         });
         toolbar=findViewById(R.id.toolbar);
+        toolbar.setTitle("Homepage");
+        setSupportActionBar(toolbar);
+
+
+
         nab =findViewById(R.id.nav_view);
         drawer=findViewById(R.id.drawer_layout);
         View g=nab.inflateHeaderView(R.layout.nav_header_main2);
@@ -139,10 +171,12 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
 
 
         ActionBarDrawerToggle at=new ActionBarDrawerToggle(this,drawer,toolbar,R.string.open,R.string.close);
+
         at.syncState();
         drawer.addDrawerListener(at);
         nab.setNavigationItemSelectedListener(this);
 
+        toolbar.setNavigationIcon(R.drawable.ic_menu);
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,6 +187,8 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
 
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -160,12 +196,7 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
+
 
     public void openNotificationPage(View view) {
         startActivity(new Intent(this,NotificationPage.class));

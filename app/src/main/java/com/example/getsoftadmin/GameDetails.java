@@ -1,5 +1,8 @@
 package com.example.getsoftadmin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameDetails {
 
     public String getName() {
@@ -32,9 +35,15 @@ public class GameDetails {
     private String i;
     private String id;
     private String time;
+    private ArrayList<String> tags;
 
-    public GameDetails(String name, String desc, String price, String imgurl, String i, String id, String time, String date) {
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public GameDetails(String name, String desc, String price, String imgurl, String i, String id, String time, String date, ArrayList<String> tags) {
         Name = name;
+        this.tags=tags;
         this.desc = desc;
         this.price = price;
         this.imgurl = imgurl;

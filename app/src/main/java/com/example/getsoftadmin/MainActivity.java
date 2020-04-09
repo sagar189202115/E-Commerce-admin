@@ -79,7 +79,7 @@ List list;
     EditText gname,gprice,gdesc;
     DatabaseReference data;
     SimpleDateFormat time=new SimpleDateFormat("hh:mm a");
-    SimpleDateFormat dateformat=new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat dateformat=new SimpleDateFormat("dd MMM, yy");
     Date today;
     List<String> checkedcategorylist;
     ArrayList<String> categorylist;
@@ -101,15 +101,25 @@ List list;
         gdesc=findViewById(R.id.gdesc);
         list=new ArrayList();
         categorylist=new ArrayList<>();
-        categorylist.add(0,"Select");
-        categorylist.add("Hello");
-        categorylist.add("world");
-        categorylist.add("adiasd");
-        categorylist.add("welll");
         clist=findViewById(R.id.list);
         checkedcategorylist=new ArrayList<>();
+        FirebaseDatabase.getInstance().getReference("GameGenre/List").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for(DataSnapshot ds:dataSnapshot.getChildren()){
+//                    categorylist.add(ds.getValue().toString());
+//                }
+                categorylist=(ArrayList)dataSnapshot.getValue();
+                clist.setAdapter(new ArrayAdapter<>(MainActivity.this,R.layout.support_simple_spinner_dropdown_item,categorylist));
 
-        clist.setAdapter(new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item,categorylist));
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         clist.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -136,18 +146,19 @@ List list;
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, ""+checkedcategorylist, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, ""+checkedcategorylist, Toast.LENGTH_SHORT).show();
 //                for(int i=0;i<grp.getChildCount();i++){
 //                    View checkedchip=grp.getChildAt(i);
 //                    checkedcategorylist.add(checkedchip.);
 //                }
 
-//                imageUpload();
+                imageUpload();
             }
         });
 
 
     }
+
 
     private void addchip(final String a) {
         LayoutInflater inflater=LayoutInflater.from(MainActivity.this);
@@ -185,7 +196,7 @@ List list;
 
     private void imageUpload() {
         String url=""+uri;
-        if (!(gname.getText().toString().equals("") || gdesc.getText().toString().equals("") || gprice.getText().toString().equals("")|| categorylist.isEmpty())) {
+        if (!(gname.getText().toString().equals("") || gdesc.getText().toString().equals("") || gprice.getText().toString().equals("")|| checkedcategorylist.isEmpty())) {
             if (!(url.equals("null"))) {
                 StorageReference riversRef = mStorageRef.child("game_images/"+imgname);
                 uploadTask = riversRef.putFile(uri);
@@ -269,6 +280,9 @@ List list;
                 data.child("time").setValue(time.format(today));
                 data.child("date").setValue(dateformat.format(today));
                 data.child("desc").setValue(gdesc.getText().toString());
+                for(String tags:checkedcategorylist){
+                    data.child("tags").child(String.valueOf(checkedcategorylist.indexOf(tags))).setValue(tags);
+                }
                 Toast.makeText(MainActivity.this, "success", Toast.LENGTH_SHORT).show();
             }
         }).addOnCanceledListener(new OnCanceledListener() {

@@ -17,11 +17,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/card"
         android:layout_margin="4sp"
-        android:elevation="5sp"
-
-        app:cardPreventCornerOverlap="true"
         android:layout_gravity="center"
-        app:cardCornerRadius="0sp">
+        app:cardCornerRadius="0sp"
+
+        >
 
 
 
@@ -39,8 +38,9 @@
                 android:layout_height="wrap_content"
                 android:text="13:13"
                 android:textSize="10dp"
-                android:textColor="#8555B5"
+                android:textColor="#6C6B6C"
                 android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="15sp"
                 android:layout_marginBottom="10sp"
 
@@ -50,7 +50,7 @@
                 android:id="@+id/date"
                 android:textSize="10sp"
                 android:layout_alignParentRight="true"
-                android:textColor="#8555B5"
+                android:textColor="#6c6b6c"
                 android:layout_marginRight="15sp"
                 android:layout_marginTop="10sp"
 

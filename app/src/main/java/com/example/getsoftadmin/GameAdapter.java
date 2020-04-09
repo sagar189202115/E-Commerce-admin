@@ -55,7 +55,7 @@ class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, ""+game.getDesc(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, ""+game.getTags(), Toast.LENGTH_SHORT).show();
             }
         });
         holder.optionButton.setOnClickListener(new View.OnClickListener() {
