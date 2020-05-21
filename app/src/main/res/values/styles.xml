@@ -13,6 +13,7 @@
         <!-- Customize your theme here. -->
 
     </style>
+
 <style name="ChipChoice" parent="@style/Widget.MaterialComponents.Chip.Choice"></style>
     <style name="NoAction.NoActionBar">
         <item name="windowActionBar">false</item>

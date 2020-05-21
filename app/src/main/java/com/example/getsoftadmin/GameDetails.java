@@ -5,6 +5,9 @@ import java.util.List;
 
 public class GameDetails {
 
+
+
+
     public String getName() {
         return Name;
     }
@@ -40,6 +43,8 @@ public class GameDetails {
     public ArrayList<String> getTags() {
         return tags;
     }
+
+
 
     public GameDetails(String name, String desc, String price, String imgurl, String i, String id, String time, String date, ArrayList<String> tags) {
         Name = name;

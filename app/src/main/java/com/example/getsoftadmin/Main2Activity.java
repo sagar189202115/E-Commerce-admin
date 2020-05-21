@@ -3,6 +3,7 @@ package com.example.getsoftadmin;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -163,11 +164,7 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
 
         nab =findViewById(R.id.nav_view);
         drawer=findViewById(R.id.drawer_layout);
-        View g=nab.inflateHeaderView(R.layout.nav_header_main2);
-        TextView t2=g.findViewById(R.id.headertext);
-        TextView t=g.findViewById(R.id.textView);
-        t.setText("sagar");
-        t2.setText("Open Profile");
+
 
 
         ActionBarDrawerToggle at=new ActionBarDrawerToggle(this,drawer,toolbar,R.string.open,R.string.close);
@@ -177,6 +174,7 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
         nab.setNavigationItemSelectedListener(this);
 
         toolbar.setNavigationIcon(R.drawable.ic_menu);
+
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,11 +194,14 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
-
-
-    public void openNotificationPage(View view) {
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         startActivity(new Intent(this,NotificationPage.class));
+
+        return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

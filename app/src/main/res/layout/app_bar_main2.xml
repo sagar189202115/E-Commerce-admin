@@ -7,9 +7,7 @@
     tools:context=".Main2Activity"
     android:fitsSystemWindows="true"
     android:theme="@style/NoAction.PopupOverlay"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     >
-
 
 
 
@@ -17,37 +15,29 @@
 <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/NoAction.PopupOverlay">
+
+    >
         <androidx.appcompat.widget.Toolbar
             app:layout_scrollFlags="enterAlways|scroll"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+
             android:background="?attr/colorPrimary"
             app:navigationIcon="@drawable/ic_menu"
-            android:overScrollMode="always"
-            app:popupTheme="@style/NoAction.AppBarOverlay" >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_gravity="right"
-                android:gravity="center"
-                >
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_notifications_black_24dp"
-                    android:onClick="openNotificationPage"/>
-            </LinearLayout>
+             >
+
+
 
         </androidx.appcompat.widget.Toolbar>
 </com.google.android.material.appbar.AppBarLayout>
 
-<include
+
+
+    <include
     layout="@layout/content_main2"/>
+
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

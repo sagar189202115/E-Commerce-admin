@@ -2,39 +2,25 @@ package com.example.getsoftadmin;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.animation.TimeAnimator;
-import android.app.TimePickerDialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.database.Cursor;
-import android.icu.text.TimeZoneNames;
-import android.icu.util.TimeUnit;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.provider.ContactsContract;
 import android.provider.OpenableColumns;
-import android.text.format.Time;
-import android.text.method.DateTimeKeyListener;
-import android.text.method.TimeKeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCanceledListener;
@@ -43,7 +29,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,7 +41,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,11 +49,10 @@ import java.util.List;
 import java.util.TimeZone;
 
 import static java.lang.Boolean.TRUE;
-import static java.time.ZoneOffset.UTC;
 
 public class MainActivity extends AppCompatActivity {
 TextView text;
-List list;
+List<String> list;
     Uri uri;
     StorageReference mStorageRef;
     ImageView imageView;
@@ -82,9 +65,13 @@ List list;
     SimpleDateFormat dateformat=new SimpleDateFormat("dd MMM, yy");
     Date today;
     List<String> checkedcategorylist;
-    ArrayList<String> categorylist;
+    List<String> categorylist;
     ChipGroup grp;
     Spinner clist;
+
+    DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("Games");
+    Query q =databaseReference.child("OptionId").child("LastId");
+
 
 
 
@@ -103,30 +90,19 @@ List list;
         categorylist=new ArrayList<>();
         clist=findViewById(R.id.list);
         checkedcategorylist=new ArrayList<>();
-        FirebaseDatabase.getInstance().getReference("GameGenre/List").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for(DataSnapshot ds:dataSnapshot.getChildren()){
-//                    categorylist.add(ds.getValue().toString());
-//                }
-                categorylist=(ArrayList)dataSnapshot.getValue();
-                clist.setAdapter(new ArrayAdapter<>(MainActivity.this,R.layout.support_simple_spinner_dropdown_item,categorylist));
+        getGenre();
 
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
         clist.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item=clist.getSelectedItem().toString();
-                if(clist.getItemAtPosition(0)!=item&&!(checkedcategorylist.contains(item))){
+                if(clist.getItemAtPosition(0)!=item&&!(checkedcategorylist.contains(item))&&!(clist.getItemAtPosition(categorylist.size()-1).equals(item))){
                 checkedcategorylist.add(item);
                 addchip(item);}
+                else if(item.equals(clist.getItemAtPosition(categorylist.size()-1))){
+                    clist.setSelection(0);
+                    startActivity(new Intent(getApplicationContext(),SettingMenu.class));
+                }
             }
 
             @Override
@@ -157,6 +133,30 @@ List list;
         });
 
 
+    }
+
+    private void getGenre() {
+        FirebaseDatabase.getInstance().getReference("GameGenre/List").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!(categorylist.isEmpty())){
+                    categorylist.clear();
+                }
+                for(DataSnapshot ds:dataSnapshot.getChildren()){
+                    categorylist.add(ds.getValue().toString());
+                }
+
+                categorylist.add("Add More..");
+                clist.setAdapter(new ArrayAdapter<>(MainActivity.this,R.layout.support_simple_spinner_dropdown_item,categorylist));
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
@@ -208,21 +208,16 @@ List list;
 
                             progressBar.setVisibility(View.GONE);
                             imageView.setImageURI(null);
-                            Query q = FirebaseDatabase.getInstance().getReference().child("Game");
 
                             q.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.N)
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                        list.add(ds.getKey());
-                                    }
-                                    int j;
-                                    for (j = 1; TRUE; j++) {
-                                        if (!(list.contains(String.valueOf(j)))) {
-                                            break;
-                                        }
-                                    }
-                                    insertData(j);
+                                    String j;
+                                   j=""+dataSnapshot.getValue();
+
+
+                                    insertData(Integer.parseInt(j)+1);
                                 }
 
                                 @Override
@@ -284,6 +279,7 @@ List list;
                     data.child("tags").child(String.valueOf(checkedcategorylist.indexOf(tags))).setValue(tags);
                 }
                 Toast.makeText(MainActivity.this, "success", Toast.LENGTH_SHORT).show();
+                databaseReference.child("OptionId").child("LastId").setValue(id);
             }
         }).addOnCanceledListener(new OnCanceledListener() {
             @Override
@@ -331,5 +327,10 @@ List list;
         finish();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getGenre();
 
+    }
 }

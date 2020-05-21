@@ -40,6 +40,7 @@ private List<NotificationDetail> notificationList;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_page);
+        FirebaseDatabase.getInstance().getReference("Request").removeValue();
        tb=findViewById(R.id.toolbar);
         nab =findViewById(R.id.navbtn);
         drawer=findViewById(R.id.drawer);

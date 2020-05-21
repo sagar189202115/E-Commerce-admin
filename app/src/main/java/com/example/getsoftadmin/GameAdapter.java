@@ -47,7 +47,8 @@ class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final GameDetails game=gameDetails.get(position);
         holder.title.setText(game.getName());
-        holder.price.setText(game.getPrice());
+
+        holder.price.setText("₹ "+game.getPrice());
         holder.desc.setText(game.getDesc());
         holder.time.setText(game.getTime());
         holder.date.setText(game.getDate());
@@ -55,7 +56,7 @@ class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, ""+game.getTags(), Toast.LENGTH_SHORT).show();
+
             }
         });
         holder.optionButton.setOnClickListener(new View.OnClickListener() {
