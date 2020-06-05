@@ -1,6 +1,7 @@
 package com.example.getsoftadmin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -73,8 +74,8 @@ class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
                             case R.id.about:
                                 Toast.makeText(context, "about", Toast.LENGTH_SHORT).show();
                                 break;
-                            case R.id.setting:
-                                Toast.makeText(context, "setting", Toast.LENGTH_SHORT).show();
+                            case R.id.edit:
+                                Toast.makeText(context, "Edit", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.delete:
                                 DeleteData.deleteKey(game.getId(),context,game.getI());

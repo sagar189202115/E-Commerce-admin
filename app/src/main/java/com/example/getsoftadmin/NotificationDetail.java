@@ -1,7 +1,7 @@
 package com.example.getsoftadmin;
 
 class NotificationDetail {
-    private String Name,RequestedUser;
+    private String Name,RequestedUser,RequestedUserId;
 
     public void setName(String name) {
         this.Name = name;
@@ -18,12 +18,16 @@ class NotificationDetail {
     public String getRequestedUser() {
         return RequestedUser;
     }
+    public String getRequestedUserId() {
+        return RequestedUserId;
+    }
 
     public NotificationDetail() {
     }
 
-    public NotificationDetail(String name, String requestedUser) {
+    public NotificationDetail(String name, String requestedUser ,String RequestedUserId) {
         this.Name = name;
+        this.RequestedUserId=RequestedUserId;
         this.RequestedUser = requestedUser;
     }
 }

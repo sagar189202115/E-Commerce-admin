@@ -13,4 +13,8 @@
         android:id="@+id/requestgame"
         android:icon="@drawable/ic_games"
         android:title="Request" />
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/ic_logout"
+        android:title="Logout" />
 </menu>

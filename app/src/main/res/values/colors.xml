@@ -6,4 +6,7 @@
     <color name="colorwhite">#ffffff</color>
     <color name="maintheme">#377C91</color>
     <color name="black">#000</color>
+
+    <color name="newaccent">#515151</color>
+
 </resources>

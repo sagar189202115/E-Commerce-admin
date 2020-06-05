@@ -18,18 +18,25 @@
         android:theme="@style/AppTheme">
         <activity android:name=".SettingMenu"></activity>
         <activity
-            android:name=".Main2Activity"
+            android:name=".Homepage"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".NotificationPage" />
         <activity android:name=".Requests" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".AddProduct" />
+        <activity android:name=".RegisterUser" />
+        <activity android:name=".VerifyPhone" />
+        <activity android:name=".splashLogo">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity android:name=".UserLogin"></activity>
+
     </application>
 
 </manifest>

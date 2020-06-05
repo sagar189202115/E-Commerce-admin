@@ -3,7 +3,6 @@ package com.example.getsoftadmin;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,13 +10,9 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,33 +23,28 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.graphics.drawable.DrawerArrowDrawable;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Database;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class Main2Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Homepage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
+    PeriodicWorkRequest periodicWorkRequest;
     private Toolbar toolbar;
     private NavigationView nab;
     private DrawerLayout drawer;
+    UserSession user;
     private RecyclerView recyclerView;
     private ArrayList<GameDetails> gamelist;
     private GameAdapter gameAdapter;
@@ -65,17 +55,13 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_m);
-        PeriodicWorkRequest periodicWorkRequest=new PeriodicWorkRequest.Builder(
-                MyPeriodicWork.class,15, TimeUnit.MINUTES
-        ).build();
-
-        WorkManager.getInstance().enqueue(periodicWorkRequest);
+        setContentView(R.layout.homepage);
+        user=new UserSession(this);
         gamelist=new ArrayList<>();
         recyclerView=findViewById(R.id.gamerecycler);
         gameAdapter=new GameAdapter(getApplicationContext(),gamelist);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
-        recyclerView.addItemDecoration(new Main2Activity.GridSpacingItemDecoration(2, dpToPx(5), false));
+        recyclerView.addItemDecoration(new Homepage.GridSpacingItemDecoration(2, dpToPx(5), false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(gameAdapter);
@@ -179,7 +165,7 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), AddProduct.class));
             }
         });
 
@@ -219,6 +205,25 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
             case R.id.requestgame:
                 Toast.makeText(this, "request", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.logout:
+                AlertDialog.Builder exit_builder;
+                exit_builder=new AlertDialog.Builder(Homepage.this);
+                exit_builder.setTitle("Logout!");
+                exit_builder.setMessage("Do You Really Want To Logout");
+                exit_builder.setCancelable(true);
+                exit_builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        user.destroyData();
+                        finish();
+
+                        startActivity(new Intent(Homepage.this, UserLogin.class));
+                    }
+                });
+                exit_builder.setNegativeButton("No",null);
+                exit_builder.create().show();
+                break;
+
 
 
         }
@@ -244,6 +249,17 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        periodicWorkRequest=new PeriodicWorkRequest.Builder(
+                MyPeriodicWork.class,15, TimeUnit.MINUTES
+        ).build();
+
+        WorkManager.getInstance().enqueue(periodicWorkRequest);
+    }
+
+    @Override
     public void onBackPressed() {
         AlertDialog.Builder exit_builder;
         exit_builder=new AlertDialog.Builder(this);
@@ -253,7 +269,7 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
         exit_builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Main2Activity.this.finishAffinity();
+                Homepage.this.finishAffinity();
 
             }
         });
@@ -273,6 +289,7 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
     @Override
     protected void onResume() {
         super.onResume();
+
 //        IntentFilter intentFilter= new IntentFilter();
 //        intentFilter.addAction(BackgroundService.ACTION);
 //        registerReceiver(broadcastReceiver,intentFilter);

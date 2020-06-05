@@ -42,6 +42,7 @@ private List<NotificationDetail> notificationList;
         setContentView(R.layout.activity_notification_page);
         FirebaseDatabase.getInstance().getReference("Request").removeValue();
        tb=findViewById(R.id.toolbar);
+       tb.setTitle("Notifications");
         nab =findViewById(R.id.navbtn);
         drawer=findViewById(R.id.drawer);
         recyclerView=findViewById(R.id.notificationrecycler);

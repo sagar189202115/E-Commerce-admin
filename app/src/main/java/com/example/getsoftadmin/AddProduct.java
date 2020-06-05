@@ -23,10 +23,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -48,9 +46,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import static java.lang.Boolean.TRUE;
-
-public class MainActivity extends AppCompatActivity {
+public class AddProduct extends AppCompatActivity {
 TextView text;
 List<String> list;
     Uri uri;
@@ -78,7 +74,7 @@ List<String> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.add_product);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         imageView = findViewById(R.id.image);
         progressBar=findViewById(R.id.progress_circular);
@@ -147,7 +143,7 @@ List<String> list;
                 }
 
                 categorylist.add("Add More..");
-                clist.setAdapter(new ArrayAdapter<>(MainActivity.this,R.layout.support_simple_spinner_dropdown_item,categorylist));
+                clist.setAdapter(new ArrayAdapter<>(AddProduct.this,R.layout.support_simple_spinner_dropdown_item,categorylist));
 
 
             }
@@ -161,7 +157,7 @@ List<String> list;
 
 
     private void addchip(final String a) {
-        LayoutInflater inflater=LayoutInflater.from(MainActivity.this);
+        LayoutInflater inflater=LayoutInflater.from(AddProduct.this);
 
                 Chip chip=(Chip)inflater.inflate(R.layout.singlechip,null,false);
                 chip.setText(a);
@@ -204,7 +200,7 @@ List<String> list;
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddProduct.this, "Uploaded", Toast.LENGTH_SHORT).show();
 
                             progressBar.setVisibility(View.GONE);
                             imageView.setImageURI(null);
@@ -234,7 +230,7 @@ List<String> list;
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, "Upload Failed" + e, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddProduct.this, "Upload Failed" + e, Toast.LENGTH_SHORT).show();
 
                     }
                 }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -260,9 +256,7 @@ List<String> list;
 
     private void insertData(final int id) {
 
-        mStorageRef.child("game_images/"+imgname).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
+
                 today=Calendar.getInstance().getTime();
                 data=FirebaseDatabase.getInstance().getReference("Game").child(String.valueOf(id));
 
@@ -278,20 +272,9 @@ List<String> list;
                 for(String tags:checkedcategorylist){
                     data.child("tags").child(String.valueOf(checkedcategorylist.indexOf(tags))).setValue(tags);
                 }
-                Toast.makeText(MainActivity.this, "success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddProduct.this, "success", Toast.LENGTH_SHORT).show();
                 databaseReference.child("OptionId").child("LastId").setValue(id);
-            }
-        }).addOnCanceledListener(new OnCanceledListener() {
-            @Override
-            public void onCanceled() {
-                Toast.makeText(MainActivity.this, "canceled", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Failed "+e, Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
 

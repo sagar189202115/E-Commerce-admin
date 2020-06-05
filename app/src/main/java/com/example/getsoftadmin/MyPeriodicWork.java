@@ -32,7 +32,6 @@ import static java.lang.Boolean.TRUE;
 public class MyPeriodicWork extends Worker {
     private NotificationManagerCompat notificationManagerCompat;
     Notification builder;
-    String Name,ReqUser;
     public MyPeriodicWork(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
@@ -42,22 +41,18 @@ public class MyPeriodicWork extends Worker {
     public Result doWork() {
 
         DatabaseReference data= FirebaseDatabase.getInstance().getReference("Request");
-        Query q=data;
+        Query q=data.orderByChild("Name");
         notificationManagerCompat= NotificationManagerCompat.from(getApplicationContext());
-        q.addValueEventListener(new ValueEventListener() {
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds:dataSnapshot.getChildren()) {
-                    Name=ds.child("Name").getValue().toString();
-                    ReqUser=""+ds.child("RequestedUser").getValue().toString();
-                }
 
 
-
-                    Intent i=new Intent(getApplicationContext(),NotificationPage.class);
+                    Intent i = new Intent(getApplicationContext(), NotificationPage.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                             | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, i, PendingIntent.FLAG_IMMUTABLE);
 
 //                    builder=new NotificationCompat.Builder(getApplicationContext(),CHANNEL_1_ID)
 //                           .setContentTitle("Notificaiton")
@@ -65,17 +60,17 @@ public class MyPeriodicWork extends Worker {
 //                           .setSmallIcon(R.drawable.ic_games)
 //                           .setContentIntent(pendingIntent)
 //                           .build();
-                     builder = new NotificationCompat.Builder(getApplicationContext(),CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-                .setContentTitle(ReqUser+" requested "+Name)
+                    builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_1_ID)
+                            .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+                            .setContentTitle(ds.child("RequestedUser").getValue() + " requested " + ds.child("Name").getValue())
 
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                             .setAutoCancel(true)
-                 .setContentIntent(pendingIntent)
-                .build();
-        notificationManagerCompat.notify(1,builder);
-
-        dataSnapshot.getRef().removeValue();
+                            .setPriority(NotificationCompat.PRIORITY_MAX)
+                            .setAutoCancel(true)
+                            .setContentIntent(pendingIntent)
+                            .build();
+                    notificationManagerCompat.notify(1, builder);
+                    ds.getRef().removeValue();
+                }
 
 //                    notificationManagerCompat.notify(1,builder);
 
