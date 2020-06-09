@@ -1,7 +1,6 @@
 package com.example.getsoftadmin;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,12 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
+
+import static com.example.getsoftadmin.EditData.converttourl;
 
 class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     public GameAdapter(Context context, ArrayList<GameDetails> gameDetails) {
@@ -76,9 +75,10 @@ class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
                                 break;
                             case R.id.edit:
                                 Toast.makeText(context, "Edit", Toast.LENGTH_SHORT).show();
+                                converttourl(game.getId(),context,game.getImgurl());
                                 break;
                             case R.id.delete:
-                                DeleteData.deleteKey(game.getId(),context,game.getI());
+                                EditData.deleteKey(game.getId(),context,game.getImgurl());
                                 break;
                             default:
                                 Toast.makeText(context, "error", Toast.LENGTH_SHORT).show();
@@ -121,4 +121,5 @@ class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
             optionButton=itemView.findViewById(R.id.optionmenu);
         }
     }
+
 }

@@ -7,10 +7,23 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Menu;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -20,19 +33,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -85,11 +85,10 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                             String desc=ds.child("desc").getValue().toString();
                             String time=ds.child("time").getValue().toString();
                             String id=ds.child("id").getValue().toString();
-                            String imgurl=ds.child("imgurl").getValue().toString();
+                            String imgurl=ds.child("thumbnail").getValue().toString();
                             String price=ds.child("price").getValue().toString();
-                            String i=ds.child("i").getValue().toString();
                             tags=(ArrayList)ds.child("tags").getValue();
-                            gamelist.add(new GameDetails(name,desc,price,imgurl,i,id,time,date,tags));
+                            gamelist.add(new GameDetails(name,desc,price,imgurl,id,time,date,tags));
 
                         }
                         recyclerView.setAdapter(gameAdapter);
@@ -121,12 +120,11 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                     String desc=ds.child("desc").getValue().toString();
                     String time=ds.child("time").getValue().toString();
                     String id=ds.child("id").getValue().toString();
-                    String imgurl=ds.child("imgurl").getValue().toString();
                     String price=ds.child("price").getValue().toString();
-                    String i=ds.child("i").getValue().toString();
+                    String i=ds.child("thumbnail").getValue().toString();
                     tags=(ArrayList)ds.child("tags").getValue();
 
-                    gamelist.add(new GameDetails(name,desc,price,imgurl,i,id,time,date,tags));
+                    gamelist.add(new GameDetails(name,desc,price,i,id,time,date,tags));
 
 
 
@@ -197,7 +195,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         {
             
             case R.id.allgames:
-                Toast.makeText(this, "Games", Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.profile:
                 Toast.makeText(this, "profile", Toast.LENGTH_SHORT).show();

@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,14 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Executor;
-
 import static com.example.getsoftadmin.App.CHANNEL_1_ID;
-import static java.lang.Boolean.TRUE;
 
 public class MyPeriodicWork extends Worker {
     private NotificationManagerCompat notificationManagerCompat;

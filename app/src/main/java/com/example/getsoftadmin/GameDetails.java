@@ -1,7 +1,6 @@
 package com.example.getsoftadmin;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GameDetails {
 
@@ -27,15 +26,12 @@ public class GameDetails {
     public GameDetails() {
     }
 
-    public String getI() {
-        return i;
-    }
 
     private String Name;
     private String desc;
     private String price;
     private String imgurl;
-    private String i;
+
     private String id;
     private String time;
     private ArrayList<String> tags;
@@ -46,13 +42,12 @@ public class GameDetails {
 
 
 
-    public GameDetails(String name, String desc, String price, String imgurl, String i, String id, String time, String date, ArrayList<String> tags) {
+    public GameDetails(String name, String desc, String price, String imgurl, String id, String time, String date, ArrayList<String> tags) {
         Name = name;
         this.tags=tags;
         this.desc = desc;
         this.price = price;
         this.imgurl = imgurl;
-        this.i = i;
         this.id = id;
         this.time = time;
         this.date = date;
